@@ -1,5 +1,5 @@
 import hashlib, json
-from notification_windows import error_window
+from notification_windows import error_window, success_window
 from tkinter import *
 
 def check_for_fulness(table: list[Entry]) -> list: 
@@ -33,11 +33,12 @@ def reg_btn_command(entry_log: Entry, entry_passw: Entry):
     def helper():
 
         log, passw = entry_log.get(), entry_passw.get()
+        passw = hashlib.sha256(passw.encode('utf-8')).hexdigest()
 
         if kit := check_for_fulness([entry_log, entry_passw]):
             error_window (f'ZERO info in {", ".join(kit)}!!', "АААУУЭЭАЭАО(")
             return
-        passw = hashlib.sha256(passw.encode('utf-8')).hexdigest()
+        
         with open('users.txt', 'r') as file:
             usr_dict = json.load(file)  
         #print(usr_dict)
@@ -83,6 +84,7 @@ def reg_btn_command(entry_log: Entry, entry_passw: Entry):
             if (kit := check_for_fulness(for_check)):
                 error_window (f'ZERO info in {",".join(kit)}!! Ur STUPID??', "АААУУЭЭАЭАО(")
                 return
+            
             usr_dict[log] = {
                 'passw': passw,
                 'surname': surname_entry.get(),
@@ -91,8 +93,9 @@ def reg_btn_command(entry_log: Entry, entry_passw: Entry):
                 'position': postion_entry.get()
                 }
             with open('users.txt', 'w') as f:
-                json.dump(usr_dict, f)
-
+                json.dump(usr_dict, f, indent=4)
+            success_window('CONGRATULATIONS <SLAVE>!', 'Еще пока не смешарик....ы')
+            
             root.grab_release()
             root.destroy()
 
@@ -110,7 +113,7 @@ def reg_btn_command(entry_log: Entry, entry_passw: Entry):
 
 
 if __name__=='__main__':
-    log = '123123'
+    log = '1231213'
     passw = '123123'
     a, b = Entry(), Entry()
     a.insert(0, a)

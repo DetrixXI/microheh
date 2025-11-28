@@ -9,9 +9,8 @@ def gif_animation(path: str, root: Tk, x: int, y: int):
     :param path: Путь к директории с картинками формата .png, которые должны собраться в гифку
     :type: str
     :param root: Окно, в котором должна проигрываться гифка
-    :type: Tk()
+    :type: Tk()\n
     :Return: ширину и высоту гифки, id для after-процесса
-
     """
     root = root
     dir = path
@@ -34,7 +33,7 @@ def gif_animation(path: str, root: Tk, x: int, y: int):
             count = 0     
         return root.after(35,lambda: animation(count))
     
-    gif_label = Label(master=root, text='ERROR', image='')
+    gif_label = Label(master=root, text='ERROR', image='', anchor=W, borderwidth=0)
     after_id = animation(count)
     gif_label.place(x=x, y=y)
     return (width, height, after_id)
